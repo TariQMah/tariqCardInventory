@@ -11,6 +11,7 @@ function CardList({ cards }) {
   const [modal, setModal] = React.useState(false);
 
   async function handleDelete() {
+    // const baseUrl = "http://localhost:3000";
     const url = `${baseUrl}/api/customer`;
     const payload = { params: { id } };
     await axios.delete(url, payload);

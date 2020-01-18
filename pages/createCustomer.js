@@ -14,7 +14,7 @@ import baseUrl from "../utils/baseUrl";
 import catchErrors from "../utils/catchErrors";
 
 const INITIAL_CUSTOMER = {
-  name: "",
+  customerName: "",
   address: "",
   phone: "",
   customerCode: ""
@@ -33,19 +33,10 @@ function CreateCustomer() {
   // }, [customer]);
 
   function handleChange(event) {
-    const { name, address, phone, customerCode } = event.target;
+    const { name, value } = event.target;
 
     setCustomer(prevState => ({ ...prevState, [name]: value }));
-  }
-
-  async function handleImageUpload() {
-    const data = new FormData();
-    data.append("file", customer.media);
-    data.append("upload_preset", "reactreserve");
-    data.append("cloud_name", "reedbargercodes");
-    const response = await axios.post(process.env.CLOUDINARY_URL, data);
-    const mediaUrl = response.data.url;
-    return mediaUrl;
+    console.log(customer);
   }
 
   async function handleSubmit(event) {
@@ -53,12 +44,11 @@ function CreateCustomer() {
       event.preventDefault();
       setLoading(true);
       setError("");
-      const mediaUrl = await handleImageUpload();
       const url = `${baseUrl}/api/customer`;
-      const { name, price, description } = customer;
-      const payload = { name, price, description, mediaUrl };
+      const { customerName, address, phone, customerCode } = customer;
+      const payload = { customerName, address, phone, customerCode };
       await axios.post(url, payload);
-      setcustomer(INITIAL_customer);
+      setCustomer(INITIAL_CUSTOMER);
       setSuccess(true);
     } catch (error) {
       catchErrors(error, setError);
@@ -89,7 +79,7 @@ function CreateCustomer() {
         <Form.Group widths="equal">
           <Form.Field
             control={Input}
-            name="name"
+            name="customerName"
             label="Name"
             placeholder="Name"
             value={customer.name}
@@ -104,6 +94,8 @@ function CreateCustomer() {
             value={customer.price}
             onChange={handleChange}
           />
+        </Form.Group>
+        <Form.Group widths="equal">
           <Form.Field
             control={Input}
             name="phone"
@@ -113,19 +105,19 @@ function CreateCustomer() {
             value={customer.phone}
             onChange={handleChange}
           />
+          <Form.Field
+            control={Input}
+            name="customerCode"
+            label="Customer Code"
+            placeholder="Customer Code"
+            type="text"
+            value={customer.customerCode}
+            onChange={handleChange}
+          />
         </Form.Group>
 
         <Form.Field
-          control={TextArea}
-          name="description"
-          label="Description"
-          placeholder="Description"
-          onChange={handleChange}
-          value={customer.description}
-        />
-        <Form.Field
           control={Button}
-          disabled={disabled || loading}
           color="blue"
           icon="pencil alternate"
           content="Submit"

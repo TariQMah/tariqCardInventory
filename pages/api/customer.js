@@ -28,17 +28,20 @@ async function handleGetRequest(req, res) {
 }
 
 async function handlePostRequest(req, res) {
-  const { name, price, description, mediaUrl } = req.body;
+  const { customerName, address, phone, customerCode } = req.body;
+
   try {
-    if (!name || !price || !description || !mediaUrl) {
-      return res.status(422).send("Product missing one or more fields");
+    if (!customerName || !address || !phone || !customerCode) {
+      return res.status(422).send("Customer missing one or more fields");
     }
-    const customer = await new Product({
-      name,
-      price,
-      description,
-      mediaUrl
+
+    const customer = await new Customer({
+      name: customerName,
+      address,
+      phone,
+      customerCode
     }).save();
+
     res.status(201).json(customer);
   } catch (error) {
     console.error(error);
