@@ -9,12 +9,15 @@ function CardList({ cards }) {
   const colors = ["red"];
   const router = useRouter();
   const [modal, setModal] = React.useState(false);
+  const [currentVal, setCurrentVal] = React.useState("");
 
   async function handleDelete() {
+    console.log("currentVal: ", currentVal);
     // const baseUrl = "http://localhost:3000";
     const url = `${baseUrl}/api/customer`;
-    const payload = { params: { id } };
+    const payload = { params: { id: currentVal } };
     await axios.delete(url, payload);
+    setCurrentVal("");
     router.push("/");
   }
   return (
@@ -49,7 +52,10 @@ function CardList({ cards }) {
                     <Table.Cell>{customerCode}</Table.Cell>
                     <Table.Cell>
                       <Button
-                        onClick={() => setModal(true)}
+                        onClick={() => {
+                          setModal(true);
+                          setCurrentVal(_id);
+                        }}
                         icon="delete"
                         color="red"
                       />
@@ -72,7 +78,15 @@ function CardList({ cards }) {
           <p>Are you sure you want to delete this customer?</p>
         </Modal.Content>
         <Modal.Actions>
-          <Button basic color="red" onClick={() => setModal(false)} inverted>
+          <Button
+            basic
+            color="red"
+            onClick={() => {
+              setModal(false);
+              setCurrentVal("");
+            }}
+            inverted
+          >
             <Icon name="remove" /> No
           </Button>
           <Button color="green" onClick={handleDelete} inverted>
