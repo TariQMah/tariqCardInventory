@@ -2,8 +2,8 @@ import React from "react";
 import axios from "axios";
 
 import CustomerList from "../components/Customer/CustomerList";
-function Customers({ cards }) {
-  return <CustomerList cards={cards} />;
+function Customers({ customers }) {
+  return <CustomerList customers={customers} />;
 }
 
 Customers.getInitialProps = async () => {
@@ -11,7 +11,7 @@ Customers.getInitialProps = async () => {
 
   const url = "http://localhost:3000/api/customers";
   const response = await axios.get(url);
-  return { cards: response.data };
+  return { customers: response.data };
   //Return Response data as an object
 
   //Note: this object will be merged with existing props

@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Form,
-  Input,
-  TextArea,
-  Button,
-  Image,
-  Message,
-  Header,
-  Icon
-} from "semantic-ui-react";
+import { Form, Input, Button, Message, Header, Icon } from "semantic-ui-react";
 import axios from "axios";
 import baseUrl from "../utils/baseUrl";
 import catchErrors from "../utils/catchErrors";
@@ -27,10 +18,10 @@ function CreateCustomer() {
   const [disabled, setDisabled] = React.useState(true);
   const [error, setError] = React.useState("");
 
-  // React.useEffect(() => {
-  //   const isCustomer = Object.values(customer.every(el => Boolean(el));
-  //   isCustomer ? setDisabled(false) : setDisabled(true);
-  // }, [customer]);
+  React.useEffect(() => {
+    const isCustomer = Object.values(customer).every(el => Boolean(el));
+    isCustomer ? setDisabled(false) : setDisabled(true);
+  }, [customer]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -119,6 +110,7 @@ function CreateCustomer() {
         <Form.Field
           control={Button}
           color="blue"
+          disabled={disabled || loading}
           icon="pencil alternate"
           content="Submit"
           type="submit"

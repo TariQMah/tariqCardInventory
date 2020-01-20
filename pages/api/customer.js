@@ -51,10 +51,10 @@ async function handlePostRequest(req, res) {
 
 async function handleDeleteRequest(req, res) {
   const { _id } = req.query;
+  console.log(_id);
   try {
     // 1) Delete product by id
-    await Customer.findOneAndDelete({ _id });
-    // 2) Remove product from all carts, referenced as 'product'
+    await Customer.findByIdAndRemove({ _id });
 
     res.status(204).json({});
   } catch (error) {

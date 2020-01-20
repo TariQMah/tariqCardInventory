@@ -4,25 +4,42 @@ import { Table, Button, Header, Icon, Modal } from "semantic-ui-react";
 import axios from "axios";
 import baseUrl from "../../utils/baseUrl";
 import { useRouter } from "next/router";
+const INITIAL_CUSTOMER = {
+  name: "",
+  _id: "",
+  address: "",
+  phone: "",
+  customerCode: ""
+};
 
-function CardList({ cards }) {
+function CustomerList({ customers }) {
   const colors = ["red"];
+  const [customer, setCustomer] = React.useState(INITIAL_CUSTOMER);
+
   const router = useRouter();
   const [modal, setModal] = React.useState(false);
+  const [currentVal, setCurrentVal] = React.useState("");
+
+  function handleEdit(id) {
+    console.log("Edit ID", id);
+  }
 
   async function handleDelete() {
+    console.log("currentVal: ", currentVal);
     // const baseUrl = "http://localhost:3000";
     const url = `${baseUrl}/api/customer`;
-    const payload = { params: { id } };
+    const payload = { params: { _id: currentVal } };
     await axios.delete(url, payload);
-    router.push("/");
+    setModal(false);
+    setCustomer(INITIAL_CUSTOMER);
+    // router.push("/");
   }
   return (
     <div>
       <Link href="/createCustomer">
-        <Button>
-          <Icon name="users" size="large" />
-          Customers
+        <Button color="blue">
+          <Icon name="users" color="grey" size="large" />
+          Add Customers
         </Button>
       </Link>
       <br /> <br />
@@ -39,7 +56,7 @@ function CardList({ cards }) {
           </Table.Header>
 
           <Table.Body>
-            {Object.values(cards).map(
+            {Object.values(customers).map(
               ({ name, _id, address, phone, customerCode }) => {
                 return (
                   <Table.Row key={_id}>
@@ -49,12 +66,15 @@ function CardList({ cards }) {
                     <Table.Cell>{customerCode}</Table.Cell>
                     <Table.Cell>
                       <Button
-                        onClick={() => setModal(true)}
+                        onClick={() => {
+                          setModal(true);
+                          setCurrentVal(_id);
+                        }}
                         icon="delete"
                         color="red"
                       />
                       <Button
-                        onClick={() => setModal(true)}
+                        onClick={() => handleEdit(_id)}
                         icon="pencil"
                         color="green"
                       />
@@ -91,4 +111,4 @@ function CardList({ cards }) {
   );
 }
 
-export default CardList;
+export default CustomerList;
