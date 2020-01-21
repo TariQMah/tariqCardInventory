@@ -1,4 +1,12 @@
-import { Menu, Container, Image, Icon } from "semantic-ui-react";
+import {
+  Button,
+  Dropdown,
+  Menu,
+  Container,
+  Image,
+  Icon
+} from "semantic-ui-react";
+
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import NProgress from "nprogress";
@@ -19,16 +27,16 @@ function Header({ user }) {
   }
 
   return (
-    <Menu stackable fluid id="menu" inverted>
+    <Menu size="tiny" stackable fluid inverted>
       <Container>
         <Link href="/">
-          <Menu.Item header active={isActive("/")}>
+          <Menu.Item active={isActive("/")}>
             <Image
               size="mini"
               src="/static/logo.svg"
               style={{ marginRight: "1em" }}
             />
-            ReactReserve
+            Card Inventory
           </Menu.Item>
         </Link>
 
@@ -38,20 +46,24 @@ function Header({ user }) {
             Cart
           </Menu.Item>
         </Link>
-        <Link href="/customers">
-          <Menu.Item header active={isActive("/customers")}>
-            <Icon name="users" size="large" />
-            Customers
-          </Menu.Item>
-        </Link>
 
         {isRootOrAdmin && (
-          <Link href="/create">
-            <Menu.Item header active={isActive("/create")}>
-              <Icon name="add square" size="large" />
-              Create
-            </Menu.Item>
-          </Link>
+          <Dropdown item text="Create" header>
+            <Dropdown.Menu>
+              <Dropdown.Item item text="Create" active={isActive("/customers")}>
+                <a href="/customers" style={{ color: "#000" }} item>
+                  Customers
+                </a>
+              </Dropdown.Item>
+              <Dropdown.Item item text="Create" active={isActive("/cards")}>
+                <a href="/cards" style={{ color: "#000" }} item>
+                  Cards
+                </a>
+              </Dropdown.Item>
+              <Dropdown.Item>Russian</Dropdown.Item>
+              <Dropdown.Item>Spanish</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         )}
 
         {user ? (
