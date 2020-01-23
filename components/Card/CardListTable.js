@@ -36,7 +36,7 @@ function CardListTable({ cards }) {
   }
   return (
     <div>
-      <Link href="/createCustomer">
+      <Link href="/createCard">
         <Button color="blue">
           <Icon name="users" size="large" />
           Add New Record
@@ -50,46 +50,54 @@ function CardListTable({ cards }) {
               <Table.HeaderCell>Name</Table.HeaderCell>
               <Table.HeaderCell>Price</Table.HeaderCell>
               <Table.HeaderCell>Sku</Table.HeaderCell>
+              <Table.HeaderCell>Code</Table.HeaderCell>
+              <Table.HeaderCell>Quantity</Table.HeaderCell>
+              <Table.HeaderCell>Bonus</Table.HeaderCell>
               <Table.HeaderCell>Image</Table.HeaderCell>
               <Table.HeaderCell>Action</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 
           <Table.Body>
-            {Object.values(cards).map(({ name, _id, price, sku, mediaUrl }) => {
-              return (
-                <Table.Row key={_id}>
-                  <Table.Cell>{name}</Table.Cell>
-                  <Table.Cell>{price}</Table.Cell>
-                  <Table.Cell>{sku}</Table.Cell>
-                  <Table.Cell>
-                    <Image
-                      src={mediaUrl}
-                      as="a"
-                      fluid
-                      size="small"
-                      href="http://google.com"
-                      target="_blank"
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Button
-                      onClick={() => {
-                        setModal(true);
-                        setCurrentVal(_id);
-                      }}
-                      icon="delete"
-                      color="red"
-                    />
-                    <Button
-                      onClick={() => handleEdit(_id)}
-                      icon="pencil"
-                      color="green"
-                    />
-                  </Table.Cell>
-                </Table.Row>
-              );
-            })}
+            {Object.values(cards).map(
+              ({ name, cardCode, qty, bonus, _id, price, sku, mediaUrl }) => {
+                return (
+                  <Table.Row key={_id}>
+                    <Table.Cell>{name}</Table.Cell>
+                    <Table.Cell>{price}</Table.Cell>
+                    <Table.Cell>{sku}</Table.Cell>
+                    <Table.Cell>{cardCode}</Table.Cell>
+                    <Table.Cell>{qty}</Table.Cell>
+                    <Table.Cell>{bonus}</Table.Cell>
+                    <Table.Cell>
+                      <Image
+                        src={mediaUrl}
+                        as="a"
+                        fluid
+                        size="small"
+                        href="http://google.com"
+                        target="_blank"
+                      />
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Button
+                        onClick={() => {
+                          setModal(true);
+                          setCurrentVal(_id);
+                        }}
+                        icon="delete"
+                        color="red"
+                      />
+                      <Button
+                        onClick={() => handleEdit(_id)}
+                        icon="pencil"
+                        color="green"
+                      />
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              }
+            )}
           </Table.Body>
         </Table>
       ))}

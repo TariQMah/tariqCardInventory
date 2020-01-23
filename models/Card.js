@@ -17,6 +17,11 @@ const CardSchema = new mongoose.Schema(
       type: Number,
       required: true
     },
+
+    qty: {
+      type: Number,
+      required: true
+    },
     sku: {
       type: String,
       unique: true,

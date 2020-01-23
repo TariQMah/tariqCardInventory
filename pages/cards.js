@@ -12,9 +12,6 @@ Cards.getInitialProps = async () => {
   const url = "http://localhost:3000/api/cards";
   const response = await axios.get(url);
   return { cards: response.data };
-  //Return Response data as an object
-
-  //Note: this object will be merged with existing props
 };
 
 export default Cards;

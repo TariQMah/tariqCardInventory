@@ -18,6 +18,8 @@ function CustomerList({ customers }) {
 
   const router = useRouter();
   const [modal, setModal] = React.useState(false);
+  const [editModal, setEditModal] = React.useState(false);
+
   const [currentVal, setCurrentVal] = React.useState("");
 
   function handleEdit(id) {
@@ -38,7 +40,7 @@ function CustomerList({ customers }) {
     <div>
       <Link href="/createCustomer">
         <Button color="blue">
-          <Icon name="users" color="grey" size="large" />
+          <Icon name="users" size="large" />
           Add Customers
         </Button>
       </Link>
@@ -74,7 +76,10 @@ function CustomerList({ customers }) {
                         color="red"
                       />
                       <Button
-                        onClick={() => handleEdit(_id)}
+                        onClick={() => {
+                          setEditModal(true);
+                          handleEdit(_id);
+                        }}
                         icon="pencil"
                         color="green"
                       />
@@ -86,13 +91,35 @@ function CustomerList({ customers }) {
           </Table.Body>
         </Table>
       ))}
-      <Modal basic open={modal} size="small">
+      <Modal basic open={modal} centered={false} size="small">
         <Header icon="archive" content="Delete Customer" />
         <Modal.Content>
           <p>Are you sure you want to delete this customer?</p>
         </Modal.Content>
         <Modal.Actions>
           <Button basic color="red" onClick={() => setModal(false)} inverted>
+            <Icon name="remove" /> No
+          </Button>
+          <Button color="green" onClick={handleDelete} inverted>
+            <Icon name="checkmark" /> Yes
+          </Button>
+        </Modal.Actions>
+      </Modal>
+      <Modal open={editModal} centered="false">
+        <Modal.Header>Select a Photo</Modal.Header>
+        <Modal.Content>
+          <Modal.Description>
+            <Header>Default Profile Image</Header>
+            <p>
+              We've found the following gravatar image associated with your
+              e-mail address.
+            </p>
+            <p>Is it okay to use this photo?</p>
+          </Modal.Description>
+        </Modal.Content>
+
+        <Modal.Actions>
+          <Button color="red" onClick={() => setEditModal(false)}>
             <Icon name="remove" /> No
           </Button>
           <Button color="green" onClick={handleDelete} inverted>
